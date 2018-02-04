@@ -1,0 +1,13 @@
+.table{
+    width: 80%;
+    max-width: 80%;
+}
+
+#painel-nome-nota {
+    display: flex;
+    justify-content: space-between;
+}
+
+.texto-tbl-vazia {
+    text-align: center;
+}

@@ -1,0 +1,80 @@
+{% extends "base.html" %} 
+
+{% block usuarioLogado %}
+    <p>{{usuarioLogado.nome}}</p>
+{% endblock %}
+
+{% block body %}
+<div class="card">
+        <div class="header">
+            <h4 class="title">{{turma.titulo}}</h4>
+            {% if turma.descricao %}
+                <p class="category">{{turma.descricao}}</p>
+            {% endif %}
+            <hr>
+        </div>
+        <div class="content">
+        <!-- Centered Pills -->
+            <ul class="nav nav-pills nav-justified">
+                <li class="active"><a data-toggle="pill" href="#lista-alunos">Alunos</a></li>
+                <li><a data-toggle="pill" href="#lista-atividades">Atividades</a></li>
+                <li><a data-toggle="pill" href="#ranking">Ranking</a></li>
+                <li><a data-toggle="pill" href="#menu3">Menu 3</a></li>
+            </ul>
+            <hr>
+        </div>
+        <div class="tab-content container">
+            <div id="lista-alunos" class="tab-pane fade in active">
+                <table class="table" id="table-lista-alunos">
+                    <thead>
+                        <th>Nome</th>
+                        <th>Matrícula</th>
+                        <th>Opções</th>
+                    </thead>
+                    <tbody>
+                        {% for aluno in turma.alunos.all %}
+                        <tr>
+                            <td>{{aluno.nome}}</td>
+                            <td>{{aluno.matricula}}</td>
+                            <td>
+                                    <a href="{% url 'detalhesAluno' aluno.id %}" class="btn btn-primary">Detalhes</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>                
+            <div id="lista-atividades" class="tab-pane fade">
+                    <table class="table" id="table-lista-atv" style="width:80%;">
+                        <thead>
+                            <th>Título</th>
+                            <th>Valor</th>
+                            <th>Entrega</th>                            
+                            <th>Opções</th>
+                        </thead>
+                        <tbody>
+                             {% for atividade in atividades %}
+                                <tr>
+                                    <td>{{atividade.titulo}}</td>
+                                    <td>{{atividade.valor}}</td>
+                                    <td>{{atividade.data_entrega|date:"d/m/Y"}}</td>
+                                    <td>
+                                        <a href="{% url 'getRespostas' atividade.id %}" class="btn btn-primary">Ver respostas</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+            </div>                
+            <div id="ranking" class="tab-pane fade">
+                    <h3>Menu 3</h3>
+                    <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            </div>                
+            <div id="menu3" class="tab-pane fade">
+                    <h3>Menu 4</h3>
+                    <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            </div>                                        
+        </div>
+</div>
+    
+{% endblock %}

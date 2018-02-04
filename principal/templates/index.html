@@ -1,0 +1,81 @@
+{% extends "base.html" %} 
+{% block usuarioLogado %}
+    <p>{{usuarioLogado.nome}}</p>
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">Minhas turmas</h4>
+                    <p class="category">Lista das turmas na qual sou administrador</p>
+                </div>
+                <div class="content table-responsive table-full-width">
+                    {% if turmas_adm %}
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Opções</th>
+                        </thead>
+                        <tbody>
+                            {% for turma in turmas_adm %}
+                            <tr>
+                                <td>{{turma.titulo}}</td>
+                                <td>
+                                    {% if turma.descricao %}
+                                        {{turma.descricao}}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'acessarTurma' turma.id %}" class="btn btn-primary">Acessar turma</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                        <p class="texto-tbl-vazia">Você ainda não criou nenhuma turma</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">Turmas que participo</h4>
+                    <p class="category">Lista das turmas na qual sou participante</p>
+                </div>
+                <div class="content table-responsive table-full-width">
+                    {% if turmas_aluno %}
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Opções</th>
+                        </thead>
+                        <tbody>
+                            {% for turma in turmas_aluno %}
+                            <tr>
+                                <td>{{turma.titulo}}</td>
+                                <td>
+                                    {% if turma.descricao %} {{turma.descricao}} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'acessarTurmaAluno' turma.id %}" class="btn btn-primary">Acessar turma</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                        <p class="texto-tbl-vazia">Você não participa de nenhuma turma</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>        
+    </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% block body %}
+<div class="col-md-12">
+    <div class="card">
+        <div class="header">
+            <h4 class="title">{{atividade.titulo}}</h4>
+        </div>
+        <div class="content">
+            <h5>
+                <a href="{{atividade.url}}">
+                    <i class="ti-file"></i> Acessar arquivo</a>
+            </h5>
+            <ul>
+                <li>Entrega até: {{atividade.data_entrega| date:"d/m/Y"}}</li>
+                <li>Valor: {{atividade.valor}} pontos</li>
+            </ul>
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title" id="painel-nome-nota">
+                            {% if atividade.comparaData == True %}
+                                <a data-toggle="collapse" href="#responder">Responder atividade</a>
+                            {% else %}
+                                <p>O prazo para entrega desta atividade já passou, você não pode mais submeter respostas</p>
+                            {% endif %}
+                        </h4>
+                    </div>
+                    <div id="responder" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <textarea name="resposta" id="respostaAtividade" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

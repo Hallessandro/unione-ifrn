@@ -1,0 +1,20 @@
+body {
+    background: url('../img/salaAula.jpg')
+}
+
+.panel-heading{
+    text-align: center;
+}
+
+.panel {
+    width: 400px;
+    max-width: 400px;    
+    height: auto;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 15%;
+}
