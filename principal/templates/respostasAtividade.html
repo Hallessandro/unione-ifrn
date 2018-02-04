@@ -1,4 +1,23 @@
-{% extends "base.html" %} {% block body %}
+{% extends "base.html" %} {% block nomePagina %} Atividade {% endblock %} {% block body %}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="header">
+            <h4 class="title">{{atividade.titulo}}</h4>
+        </div>
+        <div class="content">
+            <h5>
+                <a href="{{atividade.url}}">
+                    <i class="ti-file"></i> Acessar arquivo</a>
+            </h5>
+            <ul>
+                    <li>Entrega até: {{atividade.data_entrega| date:"d/m/Y"}}</li>
+                    <li>Valor: {{atividade.valor}} pontos</li>
+                </ul>
+        </div>
+    </div>
+</div>
+
 <div class="col-md-12">
     <div class="card">
         <div class="header">

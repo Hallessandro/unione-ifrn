@@ -1,0 +1,30 @@
+{% extends "base_login.html" %} {% block body %}
+<form class="form-signin" action="{% url 'registrar' %}" method="post">
+    {% csrf_token %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2>Crie o seu usuário</h2>
+        </div>
+        <div class="panel-body">
+    
+            <input type="text" id="id_email" name="email" class="form-control" placeholder="Email *" required autofocus>
+    
+            <input type="text" id="id_nome" name="nome" class="form-control" placeholder="Nome *" required>
+    
+            <input type="password" id="id_senha" name="senha" class="form-control" placeholder="Senha *" required>
+    
+            <input type="text" id="id_matricula" name="matricula" class="form-control" placeholder="Matrícula">
+    
+            <br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" value="Login">Registrar</button>
+            <input type="hidden" name="next" value="{{ next }}" /> 
+            {% if form.errors %}
+            <div class="alert alert-danger">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              {{form.non_field_errors}}
+            </div>
+            {% endif %}            
+        </div>
+    </div>
+</form>
+{% endblock %}

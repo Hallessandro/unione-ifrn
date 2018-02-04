@@ -15,19 +15,19 @@
  */
 /*      light colors - used for select dropdown         */
 .ct-blue {
-  stroke: #7A9E9F !important; }
+  stroke: #7A9E9F }
 
 .ct-azure {
-  stroke: #68B3C8 !important; }
+  stroke: #68B3C8 }
 
 .ct-green {
-  stroke: #7AC29A !important; }
+  stroke: #7AC29A}
 
 .ct-orange {
-  stroke: #F3BB45 !important; }
+  stroke: #F3BB45 }
 
 .ct-red {
-  stroke: #EB5E28 !important; }
+  stroke: #EB5E28 }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td-name, td {
   -moz-osx-font-smoothing: grayscale;
@@ -156,13 +156,13 @@ button::-moz-focus-inner,
 input::-moz-focus-inner,
 select::-moz-focus-inner,
 input[type="file"] > input[type="button"]::-moz-focus-inner {
-  outline: 0 !important; }
+  outline: 0   }
 
 .ui-slider-handle:focus,
 .navbar-toggle,
 input:focus,
 button:focus {
-  outline: 0 !important; }
+  outline: 0   }
 
 /*           Animations              */
 .form-control,
@@ -196,7 +196,7 @@ button:focus {
   text-align: center; }
 
 .fa-base {
-  font-size: 1.25em !important; }
+  font-size: 1.25em   }
 
 .margin-top {
   margin-top: 50px; }
@@ -511,14 +511,14 @@ hr {
   .btn:hover, .btn:focus,
   .navbar .navbar-nav > li > a.btn:hover,
   .navbar .navbar-nav > li > a.btn:focus {
-    outline: 0 !important; }
+    outline: 0   }
   .btn:active, .btn.active, .open > .btn.dropdown-toggle,
   .navbar .navbar-nav > li > a.btn:active,
   .navbar .navbar-nav > li > a.btn.active, .open >
   .navbar .navbar-nav > li > a.btn.dropdown-toggle {
     -webkit-box-shadow: none;
     box-shadow: none;
-    outline: 0 !important; }
+    outline: 0   }
   .btn.btn-icon,
   .navbar .navbar-nav > li > a.btn.btn-icon {
     padding: 7px; }
@@ -808,7 +808,7 @@ hr {
     background-color: #FFFFFF;
     -webkit-box-shadow: none;
     box-shadow: none;
-    outline: 0 !important; }
+    outline: 0   }
   .has-success .form-control, .has-error .form-control, .has-success .form-control:focus, .has-error .form-control:focus {
     -webkit-box-shadow: none;
     box-shadow: none; }
@@ -1064,7 +1064,7 @@ textarea.form-control {
     opacity: 1; }
   .checkbox input,
   .radio input {
-    outline: none !important;
+    outline: none  
     display: none; }
 
 .checkbox label,
@@ -1192,7 +1192,7 @@ textarea.form-control {
   background-color: #f4f3ef;
   border-bottom: 1px solid #DDDDDD; }
   .navbar-default .brand {
-    color: #66615b !important; }
+    color: #66615b   }
   .navbar-default .navbar-nav > li > a:not(.btn) {
     color: #9A9A9A; }
   .navbar-default .navbar-nav > .active > a,
@@ -1429,7 +1429,7 @@ textarea.form-control {
     .dropdown-menu > li > a img {
       margin-top: -3px; }
   .dropdown-menu > li > a:focus {
-    outline: 0 !important; }
+    outline: 0   }
   .btn-group.select .dropdown-menu {
     min-width: 100%; }
   .dropdown-menu > li:first-child > a {
@@ -2280,7 +2280,7 @@ textarea.form-control {
     margin-left: 0; }
 
   body > .navbar-collapse.collapse {
-    display: none !important; }
+    display: none   }
 
   .card form [class*="col-"] {
     padding: 6px; }
@@ -2333,7 +2333,7 @@ textarea.form-control {
   .navbar .navbar-collapse.collapse,
   .navbar .navbar-collapse.collapse.in,
   .navbar .navbar-collapse.collapsing {
-    display: none !important; }
+    display: none   }
 
   .navbar-nav > li {
     float: none;
@@ -2700,14 +2700,14 @@ textarea.form-control {
     margin-top: -8px; }
 
   .navbar-toggle:hover, .navbar-toggle:focus {
-    background-color: transparent !important; }
+    background-color: transparent   }
 
   .btn.dropdown-toggle {
     margin-bottom: 0; }
 
   .media-post .author {
     width: 20%;
-    float: none !important;
+    float: none  
     display: block;
     margin: 0 auto 10px; }
 
@@ -2715,13 +2715,13 @@ textarea.form-control {
     width: 100%; }
 
   .navbar-collapse.collapse {
-    height: 100% !important; }
+    height: 100%   }
 
   .navbar-collapse.collapse.in {
     display: block; }
 
   .navbar-header .collapse, .navbar-toggle {
-    display: block !important; }
+    display: block   }
 
   .navbar-header {
     float: none; }

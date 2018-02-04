@@ -1,0 +1,60 @@
+{% extends "base.html" %} {% block usuarioLogado %}
+<p>{{usuarioLogado.nome}}</p>
+{% endblock %} {% block nomePagina %} Lista de atividades {% endblock %} {% block body %} {% if atividadesProfessor %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="header">
+                <div style="display:flex;justify-content:space-between;">
+                    <h4 class="title">Atividades cadastradas</h4>
+                    <button class="btn btn-success btn-sm">Cadastrar nova
+                        <i class="ti-plus"></i>
+                    </button>
+                </div>
+                <p class="category">Lista das atividades cadastradas no sistema por você para suas turmas</p>
+            </div>
+            <div class="content table-responsive table-full-width">
+                <table class="table table-sm" style="width:90%; max-width:90%">
+                    <thead>
+                        <tr>
+                            <th>Atividade</th>
+                            <th>Turma</th>
+                            <th>Data de entrega</th>
+                            <th>Opções</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for atividade in atividadesProfessor %}                    
+                        <tr>
+                            <td>{{atividade.titulo}}</td>
+                            <td>{{atividade.turma.titulo}}</td>
+                            <td>{{atividade.data_entrega| date:"d/m/Y"}}</td>
+                            <td>
+                                <a class="btn btn-sm btn-primary" href="{% url 'getRespostas' atividade.id %}">Acessar</a>
+                            </td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %} {% if atividadesAlunos %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="header">
+                <div style="display:flex;justify-content:space-between;">
+                    <h4 class="title">Atividades disponíveis</h4>
+                </div>
+                <p class="category">Lista das atividades disponíveis nas turmas que você participa</p>
+            </div>
+            <div class="content table-responsive table-full-width">
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %} {% endblock %}
