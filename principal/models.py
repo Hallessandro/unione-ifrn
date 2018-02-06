@@ -2,7 +2,7 @@ from django.db import models
 import datetime
 from datetime import date
 from django.contrib.auth.models import User
-# Create your models here.
+from django.db.models import Count, Min, Sum, Avg
 
 class Usuario(models.Model):
     nome = models.CharField(max_length=255, blank=False, null=False)
@@ -35,4 +35,6 @@ class RespostaAtividade(models.Model):
     aluno = models.ForeignKey(Usuario, related_name="aluno", on_delete=models.CASCADE)
     nota = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     resposta = models.CharField(max_length=2000, blank=False, null=False)
+
+    
 

@@ -13,10 +13,19 @@ def index(request):
 
 @login_required
 def acessarTurma(request, id):
+    ranking = []
     usuarioLogado = get_perfil_logado(request)
     turma = Turma.objects.get(id=id)
     atividades = Atividade.objects.filter(turma=turma)
-    return render(request, 'turmaDetalhes.html', {'turma': turma, 'atividades': atividades, 'usuarioLogado':usuarioLogado})
+    respostas = RespostaAtividade.objects.filter(atividade__turma__id = turma.id)
+    for aluno in turma.alunos.all():   
+        soma = 0
+        for res in RespostaAtividade.objects.filter(aluno__id=aluno.id):
+            soma += res.nota
+        r = Ranking(aluno.id,aluno.nome, soma)
+        ranking.append(r)
+        rankingOrdenado = sorted(ranking, key=lambda Ranking:Ranking.resultado, reverse=True)
+    return render(request, 'turmaDetalhes.html', {'turma': turma, 'atividades': atividades, 'usuarioLogado':usuarioLogado, 'ranking': rankingOrdenado})
 
 @login_required
 def listarAtividades(request):
@@ -82,3 +91,14 @@ class RegistrarUsuarioView(View):
         #so chega aqui se nao for valido
         #vamos devolver o form para mostrar o formulario preenchido 
         return render(request, self.template_name, {'form' : form})
+
+
+class Ranking(object):
+    idAluno = 0
+    nomeAluno = ''
+    resultado = 0.0
+
+    def __init__(self, idAluno, nome, resultado):
+        self.idAluno = idAluno
+        self.nomeAluno = nome
+        self.resultado = resultado
