@@ -7,7 +7,7 @@
             <div class="header">
                 <div style="display:flex;justify-content:space-between;">
                     <h4 class="title">Minhas turmas</h4>
-                    <button class="btn btn-success btn-sm">Cadastrar nova
+                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#cadastrar-turma">Cadastrar nova
                         <i class="ti-plus"></i>
                     </button>
                 </div>
@@ -88,19 +88,52 @@
 <div class="modal fade" id="buscar-turma" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form>
+            <form method="POST" action="{% url 'consultaTurmaByCodigo' %}">
+                {% csrf_token %}
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Buscar turmas</h5>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Código da turma</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" style="border: solid 1px">
+                        <input type="text" class="form-control" id="valorBuscado" name="valorBuscado" aria-describedby="emailHelp" placeholder="Digite o código da turma"
+                            style="border: solid 1px">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Buscar</button>
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="cadastrar-turma" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="POST" action="{% url 'cadastrarTurma' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cadastrar turma</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Nome</label>
+                        <input type="text" class="form-control" id="nomeTurma" name="nomeTurma" aria-describedby="nomeHelp" placeholder="Digite o nome da turma"
+                            style="border: solid 1px">
+                        <label for="exampleInputEmail1">Descrição</label>
+                        <input type="text" class="form-control" id="descricaoTurma" name="descricaoTurma" aria-describedby="emailHelp" placeholder="Digite uma descrição para a turma"
+                            style="border: solid 1px">
+                        <label for="exampleInputEmail1">Código da turma</label>
+                        <input type="text" class="form-control" id="codigoTurma" name="codigoTurma" aria-describedby="emailHelp" placeholder="Digite um código que ajude seus alunos a encontrarem a turma"
+                            style="border: solid 1px">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
                 </div>
             </form>
         </div>

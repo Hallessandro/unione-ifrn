@@ -8,7 +8,7 @@
             <div class="header">
                 <div style="display:flex;justify-content:space-between;">
                     <h4 class="title">Atividades cadastradas</h4>
-                    <button class="btn btn-success btn-sm">Cadastrar nova
+                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#cadastrarAtividade">Cadastrar nova
                         <i class="ti-plus"></i>
                     </button>
                 </div>
@@ -25,7 +25,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for atividade in atividadesProfessor %}                    
+                        {% for atividade in atividadesProfessor %}
                         <tr>
                             <td>{{atividade.titulo}}</td>
                             <td>{{atividade.turma.titulo}}</td>
@@ -57,4 +57,45 @@
         </div>
     </div>
 </div>
-{% endif %} {% endblock %}
+{% endif %} {% endblock %} {% block modal %}
+
+<!-- Modal -->
+<div class="modal fade" id="cadastrarAtividade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="POST" action="{% url 'cadastrarAtividade' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cadastrar turma</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nomeAtividade">Título</label>
+                        <input type="text" class="form-control" id="nomeAtividade" name="nomeAtividade" aria-describedby="nomeHelp" placeholder="Digite o título da turma"
+                            style="border: solid 1px">
+                        <label for="nomeAtividade">Valor</label>
+                        <input type="number" class="form-control" id="valorAtividade" name="valorAtividade" aria-describedby="nomeHelp" placeholder="Digite o valor da turma"
+                            style="border: solid 1px">
+                        <label for="turmaAtividade">Turma</label>
+                        <select name="turmaAtividade" id="turmaAtividade" class="form-control">
+                            {% for turma in turmas %}
+                            <option value="{{turma.id}}">{{turma.titulo}}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="exampleInputEmail1">Data da entrega</label>
+                        <input type="date" class="form-control" id="dataEntrega" name="dataEntrega" aria-describedby="emailHelp" placeholder="Digite um código que ajude seus alunos a encontrarem a turma"
+                            style="border: solid 1px">
+                        <label for="exampleInputEmail1">Link de acesso ao arquivo</label>
+                        <input type="text" class="form-control" id="urlAtividade" name="urlAtividade" aria-describedby="emailHelp" placeholder="Digite um código que ajude seus alunos a encontrarem a turma"
+                            style="border: solid 1px">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

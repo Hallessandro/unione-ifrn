@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.db.models import Count, Min, Sum, Avg
 from quill.fields import RichTextField
 
+
 class Usuario(models.Model):
     nome = models.CharField(max_length=255, blank=False, null=False)
     matricula = models.CharField(max_length=255, blank=False, null=False)
@@ -19,7 +20,7 @@ class Turma(models.Model):
     administrador = models.ForeignKey(Usuario, related_name="adm_turma", on_delete=models.CASCADE)
     alunos = models.ManyToManyField(Usuario)
     descricao = models.CharField(max_length=1000, blank=True, null=True)
-    codigo = models.CharField(max_length=200, blank=False, null=False)
+    codigo = models.CharField(max_length=200, blank=False, null=False)    
 
 class Atividade(models.Model):
     titulo = models.CharField(max_length=255, blank=False, null=False)
@@ -37,6 +38,3 @@ class RespostaAtividade(models.Model):
     aluno = models.ForeignKey(Usuario, related_name="aluno", on_delete=models.CASCADE)
     nota = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, blank=True, null=True)
     resposta = RichTextField(config='basic')
-
-    
-

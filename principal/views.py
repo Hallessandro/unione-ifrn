@@ -3,6 +3,7 @@ from principal.models import *
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import View
 from principal.forms import *
+from django.http import HttpResponseRedirect, HttpResponse
 
 @login_required
 def index(request):
@@ -18,14 +19,17 @@ def acessarTurma(request, id):
     turma = Turma.objects.get(id=id)
     atividades = Atividade.objects.filter(turma=turma)
     respostas = RespostaAtividade.objects.filter(atividade__turma__id = turma.id)
-    for aluno in turma.alunos.all():   
-        soma = 0
-        for res in RespostaAtividade.objects.filter(aluno__id=aluno.id):
-            #soma = soma + res.nota
-            pass
-        r = Ranking(aluno.id,aluno.nome, soma, turma.id)
-        ranking.append(r)
-        rankingOrdenado = sorted(ranking, key=lambda Ranking:Ranking.resultado, reverse=True)
+    if(len(turma.alunos.all()) > 0):
+        for aluno in turma.alunos.all():   
+            soma = 0
+            for res in RespostaAtividade.objects.filter(aluno__id=aluno.id):
+                #soma = soma + res.nota
+                pass
+            r = Ranking(aluno.id,aluno.nome, soma, turma.id)
+            ranking.append(r)
+            rankingOrdenado = sorted(ranking, key=lambda Ranking:Ranking.resultado, reverse=True)
+    else:
+        rankingOrdenado = None
     return render(request, 'turmaDetalhes.html', {'turma': turma, 'atividades': atividades, 'usuarioLogado':usuarioLogado, 'ranking': rankingOrdenado})
 
 @login_required
@@ -37,9 +41,10 @@ def verResposta(request, id):
 @login_required
 def listarAtividades(request):
     usuarioLogado = get_perfil_logado(request)
+    turmas = Turma.objects.filter(administrador__id=usuarioLogado.id)
     atividadesProfessor = Atividade.objects.filter(turma__administrador__id=usuarioLogado.id)
     atividadesAluno = Atividade.objects.filter(turma__alunos__id=usuarioLogado.id)
-    return render(request, 'listaAtividades.html', {'usuarioLogado': usuarioLogado, 'atividadesProfessor': atividadesProfessor, 'atividadesAluno': atividadesAluno})
+    return render(request, 'listaAtividades.html', {'usuarioLogado': usuarioLogado, 'atividadesProfessor': atividadesProfessor, 'atividadesAluno': atividadesAluno, 'turmas':turmas})
 
 @login_required
 def alterarNota(request, id, idPagina):    
@@ -103,11 +108,44 @@ def getRespostasAtividade(request, id):
 def detalhesAtividade(request,id):
     usuarioLogado = get_perfil_logado(request)
     atividade = Atividade.objects.get(id=id)
-    return render(request, 'atividadeDetalhes.html', {'atividade': atividade, 'usuarioLogado':usuarioLogado})
+    respostas = RespostaAtividade.objects.filter(atividade__id=atividade.id).filter(aluno__id=usuarioLogado.id)
+    return render(request, 'atividadeDetalhes.html', {'atividade': atividade, 'usuarioLogado':usuarioLogado, 'respostas':respostas})
 
 @login_required
 def get_perfil_logado(request):
     return request.user.usuario    
+
+@login_required
+def cadastrarTurma(request):
+    usuarioLogado = get_perfil_logado(request)
+    turma = Turma()
+    turma.titulo = request.POST.get('nomeTurma')
+    turma.descricao = request.POST.get('descricaoTurma')
+    turma.codigo = request.POST.get('codigoTurma')
+    turma.administrador = usuarioLogado
+    turma.save()
+    return HttpResponseRedirect('/index')        
+
+@login_required
+def cadastrarAtividade(request):
+    usuarioLogado = get_perfil_logado(request)
+    atividade = Atividade()
+    atividade.titulo = request.POST.get('nomeAtividade')
+    atividade.data_entrega = request.POST.get('dataEntrega')
+    atividade.valor = request.POST.get('valorAtividade')
+    atividade.url = request.POST.get('urlAtividade')
+    t = request.POST.get('turmaAtividade')
+    turma = Turma.objects.get(id=t)
+    atividade.turma = turma
+    atividade.save()
+    return HttpResponseRedirect('/atividade/lista')
+
+@login_required
+def consultaTurmaByCodigo(request):
+    valor = request.POST.get('valorBuscado')
+    turmas = Turma.objects.filter(codigo__icontains=valor)
+    usuarioLogado = get_perfil_logado(request)                
+    return render(request, 'resultadoConsultaTurma.html', {'turmas':turmas, 'usuarioLogado':usuarioLogado})
 
 class RegistrarUsuarioView(View):
     template = 'cadastroUsuario.html'
@@ -139,7 +177,6 @@ class RegistrarUsuarioView(View):
         #so chega aqui se nao for valido
         #vamos devolver o form para mostrar o formulario preenchido 
         return render(request, self.template_name, {'form' : form})
-
 
 class Ranking(object):
     idAluno = 0
