@@ -1,0 +1,59 @@
+{% extends "base.html" %} {% block usuarioLogado %}
+<p>{{usuarioLogado.nome}}</p>
+{% endblock %} {% block nomePagina %} Histórico do aluno {% endblock %} {% block body %}
+<div class="card">
+    <div class="header">
+        <h4 class="title">Atividades respondidas</h4>
+        <p class="category">Lista das atividades para qual o estudante enviou respostas</p>
+        <hr>
+    </div>
+    <div class="content">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Atividade</th>
+                    <th>Nota/Valor</th>
+                    <th>Opções</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for resposta in respostas %}
+                <tr>
+                    <td>
+                        <a href="{% url 'detalhesAtividade' resposta.atividade.id %}">
+                            {{resposta.atividade.titulo}}
+                        </a>                        
+                    </td>
+                    <td>{{resposta.nota}}/{{resposta.atividade.valor}}</td>
+                    <td>
+                        <a href="{% url 'verResposta' resposta.id %}">Ver resposta</a>
+                    </td>
+                </tr>                
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="header">
+        <h4 class="title">Atividades não respondidas</h4>        
+        <p class="category">Lista das atividades que o estudante não enviou respostas</p>
+        <hr>
+    </div>
+    <div class="content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Atividade</th>
+                    <th>Valor</th>
+                    <th>Data de entrega</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

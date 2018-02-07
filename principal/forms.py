@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from quill.fields import RichTextField
 
 class RegistrarUsuarioForm(forms.Form):
 
@@ -25,3 +26,10 @@ class RegistrarUsuarioForm(forms.Form):
     def adiciona_erro(self, message):
         errors = self._errors.setdefault(forms.forms.NON_FIELD_ERRORS, forms.utils.ErrorList())
         errors.append(message)        
+
+
+class AlterarNotaForm(forms.Form):
+    nota = forms.DecimalField(required=True)
+
+class ResponderAtividadeForm(forms.Form):
+    resposta = RichTextField(config='basic')

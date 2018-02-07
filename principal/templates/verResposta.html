@@ -1,0 +1,52 @@
+{% extends "base.html" %} {% block usuarioLogado %}
+<p>{{usuarioLogado.nome}}</p>
+{% endblock %} {% block nomePagina %} Visualizar resposta {% endblock %} {% block body %}
+<div class="card">
+    <div class="header">
+        <h4 class="title">{{resposta.atividade.titulo}}</h4>
+        <hr>
+    </div>
+    <div class="content">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Aluno: {{resposta.aluno.nome}}</li>
+            <li class="list-group-item" style="display:flex; justify-content: space-between;">
+                <span>Nota atual: {{resposta.nota}}</span>
+                <span>
+                    <a data-toggle="collapse" href="#form-alterar-nota">Alterar nota</a>
+                </span>
+            </li>
+            <li class="list-group-item">Resposta:
+                <textarea id="froala-editor" name="froala-editor">{{resposta.resposta}}</textarea>
+            </li>
+
+        </ul>
+    </div>
+</div>
+
+<div class="collapse" id="form-alterar-nota">
+    <div class="card">
+        <div class="header">
+            <h4 class="title">Alterar nota</h4>
+        </div>
+        <div class="content">
+            <form action="{% url 'alterarNota' resposta.id 1 %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="usr">Nova nota: </label>
+                    <div style="display:flex; justify-content:flex-start;">
+                        <input type="number" value="{{resposta.nota}}" class="form-control" style="width:30%" name="nota" id="nota" step="0.01" min="0"
+                            max="{{resposta.atividade.valor}}">
+                        <button type="submit" class="btn btn-success">Alterar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#froala-editor").froalaEditor("edit.off");
+    });
+</script> 
+{% endblock %}

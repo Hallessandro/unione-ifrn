@@ -1,10 +1,4 @@
-{% extends "base.html" %} 
-
-{% block nomePagina %} 
-    Atividade
-{% endblock %}        
-
-{% block body %}
+{% extends "base.html" %} {% block nomePagina %} Atividade {% endblock %} {% block body %}
 <div class="col-md-12">
     <div class="card">
         <div class="header">
@@ -24,15 +18,21 @@
                     <div class="panel-heading">
                         <h4 class="panel-title" id="painel-nome-nota">
                             {% if atividade.comparaData == True %}
-                                <a data-toggle="collapse" href="#responder">Responder atividade</a>
+                            <a data-toggle="collapse" href="#responder">Responder atividade</a>
                             {% else %}
-                                <p>O prazo para entrega desta atividade já passou, você não pode mais submeter respostas</p>
+                            <p>O prazo para entrega desta atividade já passou, você não pode mais submeter respostas</p>
                             {% endif %}
                         </h4>
                     </div>
                     <div id="responder" class="panel-collapse collapse">
                         <div class="panel-body">
-                            <textarea name="resposta" id="respostaAtividade" cols="30" rows="10"></textarea>
+                            <form action="{% url 'responderAtividade' atividade.id usuarioLogado.id %}" method="POST">
+                                {% csrf_token %}
+                                <textarea id="froala-editor" name="froala-editor"></textarea>
+                                </div>
+                                <br>
+                                <center><button type="submit" class="btn btn-success btn-large">Responder</button></center>
+                            </form>
                         </div>
                     </div>
                 </div>

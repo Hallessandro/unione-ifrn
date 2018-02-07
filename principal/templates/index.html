@@ -1,93 +1,109 @@
-{% extends "base.html" %} 
-
-{% block usuarioLogado %}
-    <p>{{usuarioLogado.nome}}</p>
-{% endblock %}
-
-{% block nomePagina %} 
-    Minhas turmas
-{% endblock %}                            
-
-{% block body %}
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="header">
-                    <div style="display:flex;justify-content:space-between;">
-                        <h4 class="title">Minhas turmas</h4> 
-                        <button class="btn btn-success btn-sm">Cadastrar nova <i class="ti-plus"></i></button>
-                    </div>
-                    <p class="category">Lista das turmas na qual sou administrador</p>
+{% extends "base.html" %} {% block usuarioLogado %}
+<p>{{usuarioLogado.nome}}</p>
+{% endblock %} {% block nomePagina %} Minhas turmas {% endblock %} {% block body %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="header">
+                <div style="display:flex;justify-content:space-between;">
+                    <h4 class="title">Minhas turmas</h4>
+                    <button class="btn btn-success btn-sm">Cadastrar nova
+                        <i class="ti-plus"></i>
+                    </button>
                 </div>
-                <div class="content table-responsive table-full-width">
-                    {% if turmas_adm %}
-                    <table class="table table-striped">
-                        <thead>
-                            <th>Nome</th>
-                            <th>Descrição</th>
-                            <th>Opções</th>
-                        </thead>
-                        <tbody>
-                            {% for turma in turmas_adm %}
-                            <tr>
-                                <td>{{turma.titulo}}</td>
-                                <td>
-                                    {% if turma.descricao %}
-                                        {{turma.descricao}}
-                                    {% else %}
-                                        -
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <a href="{% url 'acessarTurma' turma.id %}" class="btn btn-primary">Acessar turma</a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    {% else %}
-                        <p class="texto-tbl-vazia">Você ainda não criou nenhuma turma</p>
-                    {% endif %}
-                </div>
+                <p class="category">Lista das turmas na qual sou administrador</p>
+            </div>
+            <div class="content table-responsive table-full-width">
+                {% if turmas_adm %}
+                <table class="table table-striped">
+                    <thead>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Opções</th>
+                    </thead>
+                    <tbody>
+                        {% for turma in turmas_adm %}
+                        <tr>
+                            <td>{{turma.titulo}}</td>
+                            <td>
+                                {% if turma.descricao %} {{turma.descricao}} {% else %} - {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'acessarTurma' turma.id %}" class="btn btn-primary">Acessar turma</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="texto-tbl-vazia">Você ainda não criou nenhuma turma</p>
+                {% endif %}
             </div>
         </div>
-
-        <div class="col-md-12">
-            <div class="card">
-                <div class="header">
-                    <div style="display:flex;justify-content:space-between;">
-                        <h4 class="title">Turmas que participo</h4>
-                        <button class="btn btn-success btn-sm">Buscar nova <i class="ti-search"></i></button>
-                    </div>
-                    <p class="category">Lista das turmas na qual sou participante</p>
-                </div>
-                <div class="content table-responsive table-full-width">
-                    {% if turmas_aluno %}
-                    <table class="table table-striped">
-                        <thead>
-                            <th>Nome</th>
-                            <th>Descrição</th>
-                            <th>Opções</th>
-                        </thead>
-                        <tbody>
-                            {% for turma in turmas_aluno %}
-                            <tr>
-                                <td>{{turma.titulo}}</td>
-                                <td>
-                                    {% if turma.descricao %} {{turma.descricao}} {% else %} - {% endif %}
-                                </td>
-                                <td>
-                                    <a href="{% url 'acessarTurmaAluno' turma.id %}" class="btn btn-primary">Acessar turma</a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    {% else %}
-                        <p class="texto-tbl-vazia">Você não participa de nenhuma turma</p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>        
     </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="header">
+                <div style="display:flex;justify-content:space-between;">
+                    <h4 class="title">Turmas que participo</h4>
+                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#buscar-turma">Buscar nova
+                        <i class="ti-search"></i>
+                    </button>
+                </div>
+                <p class="category">Lista das turmas na qual sou participante</p>
+            </div>
+            <div class="content table-responsive table-full-width">
+                {% if turmas_aluno %}
+                <table class="table table-striped">
+                    <thead>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Opções</th>
+                    </thead>
+                    <tbody>
+                        {% for turma in turmas_aluno %}
+                        <tr>
+                            <td>{{turma.titulo}}</td>
+                            <td>
+                                {% if turma.descricao %} {{turma.descricao}} {% else %} - {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'acessarTurmaAluno' turma.id %}" class="btn btn-primary">Acessar turma</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="texto-tbl-vazia">Você não participa de nenhuma turma</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block modal %}
+
+<!-- Modal -->
+<div class="modal fade" id="buscar-turma" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Código da turma</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" style="border: solid 1px">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Buscar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

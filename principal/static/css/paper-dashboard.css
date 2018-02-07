@@ -920,11 +920,6 @@ hr {
 .input-group-btn:last-child > .btn {
   margin-left: 0; }
 
-textarea.form-control {
-  max-width: 100%;
-  padding: 10px 18px;
-  resize: none; }
-
 .alert {
   border: 0;
   border-radius: 0;

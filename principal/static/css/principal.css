@@ -11,3 +11,7 @@
 .texto-tbl-vazia {
     text-align: center;
 }
+
+.modal-backdrop {
+    display: node;
+}
