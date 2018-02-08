@@ -23,14 +23,35 @@ def acessarTurma(request, id):
         for aluno in turma.alunos.all():   
             soma = 0
             for res in RespostaAtividade.objects.filter(aluno__id=aluno.id):
-                #soma = soma + res.nota
-                pass
+                soma = soma + res.nota
             r = Ranking(aluno.id,aluno.nome, soma, turma.id)
             ranking.append(r)
             rankingOrdenado = sorted(ranking, key=lambda Ranking:Ranking.resultado, reverse=True)
     else:
         rankingOrdenado = None
     return render(request, 'turmaDetalhes.html', {'turma': turma, 'atividades': atividades, 'usuarioLogado':usuarioLogado, 'ranking': rankingOrdenado})
+
+@login_required
+def cadastrarVideo(request):
+    usuarioLogado = get_perfil_logado(request)
+    video = Video()
+    urlVideo = request.POST.get('url')
+    video.embedCode = urlVideo.replace('watch?v=', 'embed/')
+    video.data_entrega = request.POST.get('dataEntrega')
+    video.titulo = request.POST.get('titulo')
+    video.valor = request.POST.get('valor')
+    turmaId = request.POST.get('turma')
+    turma = Turma.objects.get(id=turmaId)
+    video.turma = turma
+    video.save()
+    return HttpResponseRedirect('/video/lista')
+
+@login_required
+def listarVideos(request):
+    usuarioLogado = get_perfil_logado(request)
+    turmas = Turma.objects.filter(administrador__id=usuarioLogado.id)
+    videos = Video.objects.filter(turma__administrador__id=usuarioLogado.id)
+    return render(request, 'listaVideos.html', {'videos':videos, 'usuarioLogado':usuarioLogado, 'turmas':turmas})
 
 @login_required
 def verResposta(request, id):
@@ -141,11 +162,28 @@ def cadastrarAtividade(request):
     return HttpResponseRedirect('/atividade/lista')
 
 @login_required
+def entrarTurma(request, id):
+    msgErro = None
+    usuarioLogado = get_perfil_logado(request)
+    valor = request.POST.get('valorConsultado')
+    turmas = Turma.objects.filter(codigo__icontains=valor)
+    turma = Turma.objects.get(id=id)
+    for aluno in turma.alunos.all():
+        if(aluno.id == usuarioLogado.id):
+            msgErro = "Você já é aluno desta turma"
+            break
+    else:
+        msgErro = None
+        turma.alunos.add(usuarioLogado)
+        turma.save()
+    return render(request, 'resultadoConsultaTurma.html', {'turmas':turmas, 'usuarioLogado':usuarioLogado, 'msgErro': msgErro})
+
+@login_required
 def consultaTurmaByCodigo(request):
     valor = request.POST.get('valorBuscado')
     turmas = Turma.objects.filter(codigo__icontains=valor)
     usuarioLogado = get_perfil_logado(request)                
-    return render(request, 'resultadoConsultaTurma.html', {'turmas':turmas, 'usuarioLogado':usuarioLogado})
+    return render(request, 'resultadoConsultaTurma.html', {'turmas':turmas, 'usuarioLogado':usuarioLogado, 'valorConsultado': valor})
 
 class RegistrarUsuarioView(View):
     template = 'cadastroUsuario.html'

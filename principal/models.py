@@ -38,3 +38,16 @@ class RespostaAtividade(models.Model):
     aluno = models.ForeignKey(Usuario, related_name="aluno", on_delete=models.CASCADE)
     nota = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, blank=True, null=True)
     resposta = RichTextField(config='basic')
+
+class Video(models.Model):
+    titulo = models.CharField(max_length=1000, blank=False, null=False)
+    embedCode = models.CharField(max_length=1000, blank=False, null=False)
+    data_entrega = models.DateField(default = datetime.date.today)
+    turma = models.ForeignKey(Turma, related_name="turma_acesso", on_delete=models.CASCADE)
+    valor = models.DecimalField(max_digits=5, decimal_places=2)
+
+class VideoAssistido(models.Model):
+    aluno = models.ForeignKey(Usuario, related_name="aluno_video", on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, related_name="video", on_delete=models.CASCADE)
+    nota = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, blank=True, null=True)
+    assistido = models.BooleanField(default=False)

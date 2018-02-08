@@ -7,17 +7,26 @@
         <hr>
     </div>
     <div class="content">
+        {% if msgErro %}
+        <div class="alert alert-danger">
+            <strong>Erro!</strong> {{msgErro}}.
+        </div>
+        {% endif %}
         <ul class="list-group list-group-flush">
             {% for turma in turmas %}
             <li class="list-group-item">
-                <p style="display: flex; justify-content: space-between; padding-bottom: 0%; margin-bottom: 0%;">
-                    {{turma.titulo}}
+                <form action="{% url 'entrarTurma' turma.id %}" method="POST">
+                    {% csrf_token %}
+                    <p style="display: flex; justify-content: space-between; padding-bottom: 0%; margin-bottom: 0%;">
+                    {{turma.titulo}} 
                     {% if turma.administrador.id == usuarioLogado.id %}
                     <button class="btn btn-primary btn-sm" disabled>Você é o responsável por essa turma</button>
                     {% else %}
-                    <button class="btn btn-primary btn-sm">Entrar na turma</button>
+                        <input type="hidden" value="{{valorConsultado}}" name="valorConsultado" id="valorConsultado">
+                        <button type="submit" class="btn btn-primary">Entrar na turma</button>
                     {% endif %}
-                </p>
+                </form>
+                    </p>
                 <p>Descrição: {{turma.descricao}}</p>
                 Professor: {{turma.administrador.nome}}
             </li>

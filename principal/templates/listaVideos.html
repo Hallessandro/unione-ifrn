@@ -1,0 +1,76 @@
+{% extends "base.html" %} {% block usuarioLogado %}
+<p>{{usuarioLogado.nome}}</p>
+{% endblock %} {% block nomePagina %} Busca turmas {% endblock %} {% block body %}
+<div class="card">
+    <div class="header" style="display: flex; justify-content: space-between;">
+        <h4 class="title">Lista de vídeos</h4>
+        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#cadastrarVideo">Adicionar novo</button>
+    </div>
+    <hr>
+    <div class="content">
+        <ul class="list-group list-group-flush">            
+            {% for video in videos %}
+            <li class="list-group-item">
+                <div style="display: flex; justify-content: space-between;">
+                    <span>Título: {{video.titulo}}</span>
+                    <span>
+                        <a data-toggle="collapse" href="#{{video.id}}">Ver vídeo</a>
+                    </span>
+                </div>
+                <div class="collapse" id="{{video.id}}">
+                    <hr>
+                    <div style="display: flex; justify-content: space-between;">
+                        <iframe width="560" height="315" src="{{video.embedCode}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <div list-span>
+                            <p><span>Valor: {{video.valor}}</span></p>
+                            <p><span>Data limite de visualização: {{video.data_entrega | date:"d/m/Y"}}</span></p>
+                            <p><span>Turma: {{video.turma.titulo}}</span></p>
+                            <p><span><a href="#">Listar alunos que assistiram</a></span></p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}        
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block modal %}
+<div class="modal fade" id="cadastrarVideo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form method="POST" action="{% url 'cadastrarVideo' %}">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Cadastrar vídeo</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nomeAtividade">Título</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" style="border: solid 1px">
+                            <label for="nomeAtividade">Valor</label>
+                            <input type="number" class="form-control" id="valor" name="valor" style="border: solid 1px">
+                            <label for="turmaAtividade">Turma</label>
+                            <select name="turma" id="turma" class="form-control">
+                                {% for turma in turmas %}
+                                <option value="{{turma.id}}">{{turma.titulo}}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="exampleInputEmail1">Data da entrega</label>
+                            <input type="date" class="form-control" id="dataEntrega" name="dataEntrega"
+                                style="border: solid 1px">
+                            <label for="exampleInputEmail1">Url</label>
+                            <input type="text" class="form-control" id="url" name="url"
+                                style="border: solid 1px">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
