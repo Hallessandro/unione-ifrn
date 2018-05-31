@@ -155,6 +155,7 @@ def cadastrarAtividade(request):
     atividade.data_entrega = request.POST.get('dataEntrega')
     atividade.valor = request.POST.get('valorAtividade')
     atividade.url = request.POST.get('urlAtividade')
+    atividade.individual = request.POST.get("individualAtividade")
     t = request.POST.get('turmaAtividade')
     turma = Turma.objects.get(id=t)
     atividade.turma = turma

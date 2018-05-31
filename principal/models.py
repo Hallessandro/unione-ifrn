@@ -28,10 +28,11 @@ class Atividade(models.Model):
     data_entrega = models.DateField(default = datetime.date.today)
     turma = models.ForeignKey(Turma, related_name="turma", on_delete=models.CASCADE)
     url = models.CharField(max_length=1000, blank=False, null=False)
+    individual = models.BooleanField(default=True)
 
     @property
     def comparaData(self):
-        return self.data_entrega > date.today()
+        return self.data_entrega >= date.today()
 
 class RespostaAtividade(models.Model):
     atividade = models.ForeignKey(Atividade, related_name="atividade", on_delete=models.CASCADE)

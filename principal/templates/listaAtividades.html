@@ -1,7 +1,19 @@
 {% extends "base.html" %} {% block usuarioLogado %}
 <p>{{usuarioLogado.nome}}</p>
-{% endblock %} {% block nomePagina %} Lista de atividades {% endblock %} {% block body %} {% if atividadesProfessor %}
+{% endblock %} {% block nomePagina %} Lista de atividades {% endblock %} 
+{% block body %} 
+{% if not atividadesProfessor %}
+<div class="div-nova-atividade" style="display: flex; justify-content: center;flex-wrap: wrap;">
+    <p>Nenhuma atividade cadastrada</p>
+</div>
+<div style="display: flex; justify-content: center;">
+    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#cadastrarAtividade">Cadastrar nova
+        <i class="ti-plus"></i>
+    </button>
+</div>
+{% endif %}
 
+{% if atividadesProfessor %}
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -66,7 +78,7 @@
             <form method="POST" action="{% url 'cadastrarAtividade' %}">
                 {% csrf_token %}
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Cadastrar turma</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Cadastrar atividade</h5>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -81,6 +93,11 @@
                             {% for turma in turmas %}
                             <option value="{{turma.id}}">{{turma.titulo}}</option>
                             {% endfor %}
+                        </select>
+                        <label for="exampleInputEmail1">Individual ou grupo</label>
+                        <select name="individualAtividade" id="individualAtividade" class="form-control">
+                            <option value="true">Individual</option>
+                            <option value="false">Grupo</option>
                         </select>
                         <label for="exampleInputEmail1">Data da entrega</label>
                         <input type="date" class="form-control" id="dataEntrega" name="dataEntrega" aria-describedby="emailHelp" placeholder="Digite um código que ajude seus alunos a encontrarem a turma"
