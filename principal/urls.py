@@ -6,7 +6,7 @@ from principal.views import RegistrarUsuarioView
 
 urlpatterns = [
     path('', views.index, name="index"),
-    path('index', views.index, name="index"),
+    path('index/', views.index, name="index"),
     #path('home', views.index, name="home"),
 
     path('turma/<int:id>', views.acessarTurma, name="acessarTurma"),
@@ -25,9 +25,9 @@ urlpatterns = [
     path('atividade/responder/<int:id>/usuario/<int:idAluno>', views.responderAtividade, name='responderAtividade'),
     path('atividade/cadastrar', views.cadastrarAtividade, name='cadastrarAtividade'),
 
-    path('login', auth_views.login, {'template_name':'login.html'}, name='login'),
-    path('logout', auth_views.logout_then_login, {'login_url' : '/login'}, name="logout"),
-    path('registrar', RegistrarUsuarioView.as_view(), name="registrar"),
+    path('login/', auth_views.login, {'template_name':'login.html'}, name='login'),
+    path('logout/', auth_views.logout_then_login, {'login_url' : '/login'}, name="logout"),
+    path('registrar/', RegistrarUsuarioView.as_view(), name="registrar"),
 
     path('alterarNota/<int:id>/pagina/<int:idPagina>', views.alterarNota, name='alterarNota'),
 

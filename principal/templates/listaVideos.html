@@ -19,19 +19,43 @@
                 </div>
                 <div class="collapse" id="{{video.id}}">
                     <hr>
-                    <div style="display: flex; justify-content: space-between;">
-                        <iframe width="560" height="315" src="{{video.embedCode}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                        <div list-span>
-                            <p><span>Valor: {{video.valor}}</span></p>
-                            <p><span>Data limite de visualização: {{video.data_entrega | date:"d/m/Y"}}</span></p>
-                            <p><span>Turma: {{video.turma.titulo}}</span></p>
-                            <p><span><a href="#">Listar alunos que assistiram</a></span></p>
-                        </div>
-                    </div>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Vídeo</th>
+                                <th>Informações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <iframe width="310" height="200" src="{{video.embedCode}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                </td>
+                                <td>
+                                    <div list-span>
+                                        <p><span>Valor: {{video.valor}}</span></p>
+                                        <p><span>Data limite de visualização: {{video.data_entrega | date:"d/m/Y"}}</span></p>
+                                        <p><span>Turma: {{video.turma.titulo}}</span></p>
+                                        <p><span><a href="#">Listar alunos que assistiram</a></span></p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </li>
             {% endfor %}        
         </ul>
+        <center><a href="#" class="btn-secondary btn-sm btn-block" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+        aria-controls="collapseExample">Ver vídeos já finalizados</a></center>
+        <br>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                {% for v in videoVencido %}
+                <h5>{{v.titulo}} -- {{v.data_entrega}}</h5>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

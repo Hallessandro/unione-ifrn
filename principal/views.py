@@ -51,7 +51,14 @@ def listarVideos(request):
     usuarioLogado = get_perfil_logado(request)
     turmas = Turma.objects.filter(administrador__id=usuarioLogado.id)
     videos = Video.objects.filter(turma__administrador__id=usuarioLogado.id)
-    return render(request, 'listaVideos.html', {'videos':videos, 'usuarioLogado':usuarioLogado, 'turmas':turmas})
+    videosVencido = []
+    videosPrazo = []
+    for v in videos:
+        if(v.comparaData == False):
+            videosVencido.append(v)
+        else:
+            videosPrazo.append(v) 
+    return render(request, 'listaVideos.html', {'videos':videosPrazo, 'videoVencido': videosVencido, 'usuarioLogado':usuarioLogado, 'turmas':turmas})
 
 @login_required
 def verResposta(request, id):

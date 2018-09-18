@@ -47,6 +47,9 @@ class Video(models.Model):
     turma = models.ForeignKey(Turma, related_name="turma_acesso", on_delete=models.CASCADE)
     valor = models.DecimalField(max_digits=5, decimal_places=2)
 
+    @property
+    def comparaData(self):
+        return self.data_entrega >= date.today()
 class VideoAssistido(models.Model):
     aluno = models.ForeignKey(Usuario, related_name="aluno_video", on_delete=models.CASCADE)
     video = models.ForeignKey(Video, related_name="video", on_delete=models.CASCADE)
