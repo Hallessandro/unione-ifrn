@@ -129,8 +129,11 @@ def acessarNotasAluno(request, id, idTurma):
 def getRespostasAtividade(request, id):
     usuarioLogado = get_perfil_logado(request)
     respostas = RespostaAtividade.objects.filter(atividade=id)
+    from ast import literal_eval
+    gruposString = Grupo.objects.filter(atividade=id)
+    grupos = literal_eval(gruposString[0].grupo) if gruposString else []
     atividade = Atividade.objects.get(id=id)
-    return render(request, 'respostasAtividade.html', {'respostas': respostas, 'atividade':atividade, 'usuarioLogado':usuarioLogado})
+    return render(request, 'respostasAtividade.html', {'respostas': respostas, 'atividade':atividade, 'usuarioLogado':usuarioLogado, 'grupos': grupos})
 
 @login_required
 def detalhesAtividade(request,id):
@@ -171,7 +174,11 @@ def cadastrarAtividade(request):
         lenGrupo = request.POST.get('tamanhoGrupo')
         grupos = gerarGrupos(turma.alunos.all(), lenGrupo if lenGrupo and int(lenGrupo) > 1 else 1)
     atividade.save()
-    print(grupos)
+    grupo = Grupo()
+    grupo.atividade = Atividade.objects.get(id=atividade.id)
+    grupo.grupo = str(grupos)
+    grupo.save()
+    print(str(grupos))
     return HttpResponseRedirect('/atividade/lista')
 
 @login_required
@@ -236,9 +243,7 @@ def gerarGrupos(alunos, lenGrupo):
     countGrupo = 1
     grupos = {}
     tamanhoGrupo = int(lenGrupo)
-    print(len(valores))
     tamTotal = int(len(valores) / tamanhoGrupo)
-    print(tamTotal)
     for x in range(0, tamTotal):
         pos = 0
         contador = 0
@@ -252,11 +257,9 @@ def gerarGrupos(alunos, lenGrupo):
             contador += 1
             pos = 0 if pos == -1 else -1
         nome = 'Grupo ' + str(countGrupo)
-        print(nome)
         grupos[nome] = grupo
         countGrupo += 1
         maiorGrupo = len(grupos)
-    print(grupos)
     if(len(valores) > 0):
         if(len(valores) == tamanhoGrupo):
             grupos['Grupo ' + str(countGrupo)] = valores

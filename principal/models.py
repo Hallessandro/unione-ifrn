@@ -55,3 +55,7 @@ class VideoAssistido(models.Model):
     video = models.ForeignKey(Video, related_name="video", on_delete=models.CASCADE)
     nota = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, blank=True, null=True)
     assistido = models.BooleanField(default=False)
+
+class Grupo(models.Model):
+    atividade = models.ForeignKey(Atividade, related_name="atividade_grupo", on_delete=models.CASCADE)
+    grupo = models.CharField(max_length=10000, blank=False, null=False)

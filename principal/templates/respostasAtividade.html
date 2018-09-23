@@ -20,6 +20,28 @@
     </div>
 </div>
 
+{% if grupos.items %}
+<div class="col-md-12">
+    <div class="card">
+        <div class="header">
+            <h4 class="title">Grupos</h4>
+        </div>
+        <div class="content">
+            <ul>
+                {% for key, value in grupos.items %}
+                <li>
+                    <strong>{{key}}: </strong>
+                    {% for aluno in value %}
+                        {{aluno}} 
+                    {% endfor %}   
+                </li>
+                {% endfor %}
+            </ul>            
+        </div>
+    </div> 
+</div>
+{% endif %}
+
 <div class="col-md-12">
     <div class="card">
         <div class="header">
