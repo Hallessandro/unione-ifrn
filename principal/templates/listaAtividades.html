@@ -3,7 +3,7 @@
 {% endblock %} {% block nomePagina %} Lista de atividades {% endblock %} 
 {% block body %} 
 {% if not atividadesProfessor %}
-<div class="div-nova-atividade" style="display: flex; justify-content: center;flex-wrap: wrap;">
+<div style="display: flex; justify-content: center;flex-wrap: wrap;">
     <p>Nenhuma atividade cadastrada</p>
 </div>
 <div style="display: flex; justify-content: center;">
@@ -94,11 +94,14 @@
                             <option value="{{turma.id}}">{{turma.titulo}}</option>
                             {% endfor %}
                         </select>
-                        <label for="exampleInputEmail1">Individual ou grupo</label>
-                        <select name="individualAtividade" id="individualAtividade" class="form-control">
-                            <option value="true">Individual</option>
-                            <option value="false">Grupo</option>
+                        <label for="exampleInputEmail1">Individual ou em grupo</label>
+                        <select name="individualAtividade" id="individualAtividade" 
+                            class="form-control" onchange="mostrarInputGrupo(event.target.value)">
+                            <option value="True">Individual</option>
+                            <option value="False">Grupo</option>
                         </select>
+                        <div id="div-tamanho-grupo"></div>
+                        <input type="hidden" value="0" id="tamanhoGrupo" name="tamanhoGrupo">
                         <label for="exampleInputEmail1">Data da entrega</label>
                         <input type="date" class="form-control" id="dataEntrega" name="dataEntrega" aria-describedby="emailHelp" placeholder="Digite um código que ajude seus alunos a encontrarem a turma"
                             style="border: solid 1px">
@@ -115,4 +118,16 @@
         </div>
     </div>
 </div>
+<script>
+    function mostrarInputGrupo(valor){
+        if(valor === 'False'){
+            document.querySelector("#div-tamanho-grupo").innerHTML = `<label for="tamanhoGrupo">Tamanho do grupo</label>
+            <input type="number"  class="form-control" id="tamGrupo" name="tamGrupo" onchange="passarTamanhoGrupo(event.target.value)">`
+        }
+    }
+
+    function passarTamanhoGrupo(valor){
+        document.querySelector("#tamanhoGrupo").value = valor;
+    }
+</script>
 {% endblock %}

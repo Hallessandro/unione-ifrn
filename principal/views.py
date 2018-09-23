@@ -162,11 +162,16 @@ def cadastrarAtividade(request):
     atividade.data_entrega = request.POST.get('dataEntrega')
     atividade.valor = request.POST.get('valorAtividade')
     atividade.url = request.POST.get('urlAtividade')
-    atividade.individual = request.POST.get("individualAtividade")
+    atividade.individual = True if request.POST.get("individualAtividade") == 'True' else False
+    grupos = []
     t = request.POST.get('turmaAtividade')
     turma = Turma.objects.get(id=t)
     atividade.turma = turma
+    if(atividade.individual == False):
+        lenGrupo = request.POST.get('tamanhoGrupo')
+        grupos = gerarGrupos(turma.alunos.all(), lenGrupo if lenGrupo and int(lenGrupo) > 1 else 1)
     atividade.save()
+    print(grupos)
     return HttpResponseRedirect('/atividade/lista')
 
 @login_required
@@ -223,6 +228,47 @@ class RegistrarUsuarioView(View):
         #so chega aqui se nao for valido
         #vamos devolver o form para mostrar o formulario preenchido 
         return render(request, self.template_name, {'form' : form})
+
+def gerarGrupos(alunos, lenGrupo):
+    valores = []
+    for aluno in alunos:
+        valores.append(aluno.nome)
+    countGrupo = 1
+    grupos = {}
+    tamanhoGrupo = int(lenGrupo)
+    print(len(valores))
+    tamTotal = int(len(valores) / tamanhoGrupo)
+    print(tamTotal)
+    for x in range(0, tamTotal):
+        pos = 0
+        contador = 0
+        grupo = []
+        while(contador < tamanhoGrupo):
+            try:               
+                grupo.append(valores[pos])
+                del valores[pos]
+            except IndexError:
+                break
+            contador += 1
+            pos = 0 if pos == -1 else -1
+        nome = 'Grupo ' + str(countGrupo)
+        print(nome)
+        grupos[nome] = grupo
+        countGrupo += 1
+        maiorGrupo = len(grupos)
+    print(grupos)
+    if(len(valores) > 0):
+        if(len(valores) == tamanhoGrupo):
+            grupos['Grupo ' + str(countGrupo)] = valores
+        else:            
+            for valor in valores:
+                try:
+                    grupos['Grupo ' + str(countGrupo)].append(valor)
+                except KeyError:
+                    grupos['Grupo ' + str(maiorGrupo)].append(valor)
+                    countGrupo -= 1
+                countGrupo = countGrupo - 1 if countGrupo > 0 else maiorGrupo
+    return grupos
 
 class Ranking(object):
     idAluno = 0
